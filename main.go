@@ -13,7 +13,7 @@ func main() {
 	models.ConnectDataBase()
 
 	router.GET("/users", userController.GetUsers)
-	router.POST("/users", userController.CreateUser)
+	router.POST("/register", userController.CreateUser)
 
 	router.GET("/books", bookController.GetBooks)
 	router.POST("/books", bookController.CreateBook)

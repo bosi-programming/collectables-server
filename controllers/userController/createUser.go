@@ -19,7 +19,7 @@ func CreateUser(c *gin.Context) {
 	var input CreateUserInput
 
 	if hasUser := models.DB.Where("username C ?", input.UserName).First(&models.User{}); hasUser != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists!"})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "User already exists!"})
 		return
 	}
 
