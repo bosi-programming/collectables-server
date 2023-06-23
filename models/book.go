@@ -9,4 +9,6 @@ type Book struct {
 	Title       string `gorm:"size:255;not null" json:"title" binding:"required"`
 	Author      string `gorm:"size:255;not null" json:"author" binding:"required"`
 	PlaceOfBook string `gorm:"size:255;not null" json:"placeOfBook" binding:"required"`
+	UserID        int   `json:"user_id" binding:"required"`
+	User        *User   `json:"user" binding:"required"`
 }

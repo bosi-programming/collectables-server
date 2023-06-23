@@ -3,6 +3,7 @@ package bookController
 import (
 	"github.com/gin-gonic/gin"
 	"go-server/m/models"
+	"go-server/m/utils/token"
 	"net/http"
 )
 
@@ -17,6 +18,7 @@ type CreateBookInput struct {
 // @Success 200 {object} Book
 // @Router /books [post]
 func CreateBook(c *gin.Context) {
+	user_id, _ := token.ExtractTokenID(c)
 	var input CreateBookInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -24,7 +26,9 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	book := models.Book{Title: input.Title, Author: input.Author, PlaceOfBook: input.PlaceOfBook}
+	user := models.DB.Where("id = ?", user_id).First(&models.User{}).Value.(*models.User)
+
+	book := models.Book{Title: input.Title, Author: input.Author, PlaceOfBook: input.PlaceOfBook, User: user}
 	models.DB.Create(&book)
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
