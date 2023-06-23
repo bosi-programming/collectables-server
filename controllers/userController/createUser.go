@@ -18,18 +18,28 @@ type CreateUserInput struct {
 func CreateUser(c *gin.Context) {
 	var input CreateUserInput
 
-	if hasUser := models.DB.Where("username C ?", input.UserName).First(&models.User{}); hasUser != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "User already exists!"})
-		return
-	}
-
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	user := models.User{Username: input.UserName, Password: input.Password}
-	models.DB.Create(&user)
+	hasUser := models.DB.Where("username = ?", input.UserName).First(&models.User{})
+
+	if hasUser != nil && hasUser.Value.(*models.User).Username == input.UserName {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "User already exists!", "info": hasUser.Value.(*models.User).Username, "input": input})
+		return
+	}
+
+	user := models.User{}
+	user.Username = input.UserName
+	user.Password = input.Password
+
+	_, err := user.SaveUser()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }
