@@ -2,7 +2,7 @@ package main
 
 import (
 	"go-server/m/controllers"
-	"go-server/m/controllers/bookController"
+	"go-server/m/controllers/collectableController"
 	"go-server/m/controllers/userController"
 	"go-server/m/middlewares"
 	"go-server/m/models"
@@ -22,11 +22,11 @@ func main() {
 	protected.Use(middlewares.JwtAuthMiddleware())
 
 	protected.GET("/users", userController.GetUsers)
-	protected.GET("/books", bookController.GetBooks)
-	protected.POST("/books", bookController.CreateBook)
-	protected.GET("/books/:id", bookController.FindBookById)
-	protected.PATCH("/books/:id", bookController.UpdateBook)
-	protected.DELETE("/books/:id", bookController.DeleteBook)
+	protected.GET("/collectables", collectableController.GetCollectables)
+	protected.POST("/collectables", collectableController.CreateCollectable)
+	protected.GET("/collectables/:id", collectableController.FindCollectableById)
+	protected.PATCH("/collectables/:id", collectableController.UpdateCollectable)
+	protected.DELETE("/collectables/:id", collectableController.DeleteCollectable)
 
 	router.Run(":8080")
 }
