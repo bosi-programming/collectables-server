@@ -26,7 +26,7 @@ func CreateUser(c *gin.Context) {
 	hasUser := models.DB.Where("username = ?", input.UserName).First(&models.User{})
 
 	if hasUser != nil && hasUser.Value.(*models.User).Username == input.UserName {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "User already exists!", "info": hasUser.Value.(*models.User).Username, "input": input})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "User already exists!", "info": hasUser.Value.(*models.User).Username})
 		return
 	}
 

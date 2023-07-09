@@ -1,9 +1,9 @@
 package models
 
 import (
+	"errors"
 	"html"
 	"strings"
-	"errors"
 
 	"github.com/jinzhu/gorm"
 	"go-server/m/utils/token"
@@ -39,7 +39,6 @@ func VerifyPassword(password, hashedPassword string) error {
 }
 
 func LoginCheck(username string, password string) (string, error) {
-
 	var err error
 
 	u := User{}
