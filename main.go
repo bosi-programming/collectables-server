@@ -36,5 +36,5 @@ func main() {
 	protected.DELETE("/types/:id", typeController.DeleteType)
 	protected.GET("/types/:id", typeController.FindTypeById)
 
-	router.Run(":8080")
+	router.Run(":3000")
 }
