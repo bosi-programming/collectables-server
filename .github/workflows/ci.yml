@@ -1,5 +1,4 @@
 name: collections-api
-env: production
 on:
   push:
     branches:
