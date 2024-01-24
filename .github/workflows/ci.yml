@@ -20,3 +20,6 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: "/.git/, /.github/"
+          SCRIPT_AFTER: |
+            chmod +x ./deploy.sh
+            ./deploy.sh
