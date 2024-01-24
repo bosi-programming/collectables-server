@@ -1,10 +1,9 @@
-version: '3'
 services:
   go-web-app:
+    container_name: collectables-api
     restart: always
-    build:
-      dockerfile: Dockerfile
-      context: .
+    build: .
+    working_dir: /go-server
     expose:
       - "3000"
     ports:

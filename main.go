@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"go-server/m/controllers"
 	"go-server/m/controllers/collectableController"
 	"go-server/m/controllers/userController"
@@ -8,10 +11,20 @@ import (
 	"go-server/m/middlewares"
 	"go-server/m/models"
 
+	"github.com/joho/godotenv"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+  ginMode := os.Getenv("GIN_MODE")
+  if ginMode == "release" {
+    gin.SetMode(gin.ReleaseMode)
+  }
 	router := gin.Default()
 	models.ConnectDataBase()
 

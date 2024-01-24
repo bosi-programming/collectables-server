@@ -1,22 +1,20 @@
 # Use a imagem oficial do Go como base
-FROM golang:1.21-alpine
+FROM golang:1.21.6-alpine3.18 as build
 
 # Defina o diretório de trabalho dentro do contêiner
+RUN mkdir /go-server && chmod 777 /go-server
 WORKDIR /go-server
 
 # Download Go modules
 COPY . .
 RUN go mod download
 
-# Copy the source code. Note the slash at the end, as explained in
-# https://docs.docker.com/engine/reference/builder/#copy
-COPY *.go ./
+# Construa o aplicativo Go sem debug
+RUN CGO_ENABLED=0 go build -ldflags '-w -s' -o go-web-server
 
-# Construa o aplicativo Go
-RUN go build -o go-server
-
-# Exponha a porta em que o aplicativo será executado
+From alpine:3.18
+RUN mkdir /go-server && chmod 777 /go-server
+WORKDIR /go-server
+COPY --from=build /go-server /
 EXPOSE 3000
-
-# Comando padrão para executar o aplicativo quando o contêiner for iniciado
-CMD ["./go-server"]
+CMD ["/go-web-server"]
