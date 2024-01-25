@@ -1,3 +1,3 @@
 docker compose down
-docker image rm go-server-go-web-app
+docker image rm api-go-web-app
 docker compose up -d

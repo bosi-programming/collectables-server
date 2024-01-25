@@ -1,6 +1,7 @@
 services:
   go-web-app:
     container_name: collectables-api
+    network_mode: "host"
     restart: always
     build: .
     working_dir: /go-server
