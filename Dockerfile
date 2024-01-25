@@ -2,7 +2,6 @@
 FROM golang:1.21.6-alpine3.18 as build
 
 # Defina o diretório de trabalho dentro do contêiner
-RUN mkdir /go-server && chmod 777 /go-server
 WORKDIR /go-server
 
 # Download Go modules
@@ -13,8 +12,7 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -ldflags '-w -s' -o go-web-server
 
 From alpine:3.18
-RUN mkdir /go-server && chmod 777 /go-server
 WORKDIR /go-server
-COPY --from=build /go-server /
+COPY --from=build /go-server .
 EXPOSE 3000
-CMD ["/go-web-server"]
+CMD ["./go-web-server"]
