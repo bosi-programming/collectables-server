@@ -25,7 +25,6 @@ func UploadCollectable(c *gin.Context) {
 	}
 
 	user := models.DB.Where("id = ?", user_id).First(&models.User{}).Value.(*models.User)
-	collectableType := models.DB.Where("id = ?", typeId).First(&models.Type{}).Value.(*models.Type)
 
 	csvFile, err := file.Open()
 
@@ -46,7 +45,7 @@ func UploadCollectable(c *gin.Context) {
 		}
 		goc.Wait()
 		go func(record []string) {
-			createOrUpdateCollectable(record, user, collectableType)
+			createOrUpdateCollectable(record, user)
 			goc.Done()
 		}(record)
 	}
@@ -54,9 +53,9 @@ func UploadCollectable(c *gin.Context) {
 	goc.WaitAllDone()
 }
 
-func createOrUpdateCollectable(record []string, user *models.User, collectableType *models.Type) {
-	title, author, category, subCategory, placeOfCollectable := record[0], record[1], record[2], record[3], record[4]
-	collectable := models.Collectable{Title: title, Author: author, Category: category, SubCategory: subCategory, PlaceOfCollectable: placeOfCollectable, User: user, Type: collectableType}
+func createOrUpdateCollectable(record []string, user *models.User) {
+	title, author, category, subCategory, collectableType := record[0], record[1], record[2], record[3], record[4]
+	collectable := models.Collectable{Title: title, Author: author, Category: category, SubCategory: subCategory, Type: collectableType, User: user}
 
 	hasCollectable := models.DB.Where("title = ? AND user_id = ?", title, user.ID).Find(&models.Collectable{})
 	println(title, hasCollectable)

@@ -39,6 +39,42 @@ func GetCollectables(c *gin.Context) {
 		return
 	}
 
+	var category = c.Query("category")
+
+	if category != "" {
+		err := models.DB.Where("category LIKE ? AND user_id = ?", "%"+category+"%", user_id).Find(&collectables).Error
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No collectables by this category", "params": category})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": collectables})
+		return
+	}
+
+	var subCategory = c.Query("subCategory")
+
+	if subCategory != "" {
+		err := models.DB.Where("sub_category LIKE ? AND user_id = ?", "%"+subCategory+"%", user_id).Find(&collectables).Error
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No collectables by this subCategory", "params": subCategory})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": collectables})
+		return
+	}
+
+	var collectableType = c.Query("type")
+
+	if collectableType != "" {
+		err := models.DB.Where("type LIKE ? AND user_id = ?", "%"+collectableType+"%", user_id).Find(&collectables).Error
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No collectables by this type", "params": collectableType})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": collectables})
+		return
+	}
+
 	models.DB.Where("user_id = ?", user_id).Find(&collectables)
 
 	c.JSON(http.StatusOK, gin.H{"data": collectables})

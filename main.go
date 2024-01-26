@@ -7,7 +7,6 @@ import (
 	"go-server/m/controllers"
 	"go-server/m/controllers/collectableController"
 	"go-server/m/controllers/userController"
-	"go-server/m/controllers/typeController"
 	"go-server/m/middlewares"
 	"go-server/m/models"
 

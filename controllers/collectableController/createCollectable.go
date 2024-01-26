@@ -11,8 +11,9 @@ import (
 type CreateCollectableInput struct {
 	Title       string `json:"title" binding:"required"`
 	Author      string `json:"author" binding:"required"`
-	PlaceOfCollectable string `json:"placeOfCollectable" binding:"required"`
-	TypeID      int    `json:"type_id" binding:"required"`
+	Category  string `json:"category" binding:"required"`
+	SubCategory  string `json:"subCategory" binding:"required"`
+	Type  string `json:"type" binding:"required"`
 }
 
 // CreateCollectable godoc
@@ -29,9 +30,8 @@ func CreateCollectable(c *gin.Context) {
 	}
 
 	user := models.DB.Where("id = ?", user_id).First(&models.User{}).Value.(*models.User)
-	collectableType := models.DB.Where("id = ?", input.TypeID).First(&models.Type{}).Value.(*models.Type)
 
-	collectable := models.Collectable{Title: input.Title, Author: input.Author, PlaceOfCollectable: input.PlaceOfCollectable, User: user, Type: collectableType}
+	collectable := models.Collectable{Title: input.Title, Author: input.Author, Category: input.Category, SubCategory: input.SubCategory, User: user, Type: input.Type}
 	models.DB.Create(&collectable)
 
 	c.JSON(http.StatusOK, gin.H{"data": collectable})
