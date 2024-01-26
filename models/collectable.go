@@ -10,9 +10,7 @@ type Collectable struct {
 	Author      string `gorm:"size:255;not null" json:"author" binding:"required"`
 	Category      string `gorm:"size:255;not null" json:"category" binding:"required"`
 	SubCategory      string `gorm:"size:255;not null" json:"subCategory" binding:"required"`
-	PlaceOfCollectable string `gorm:"size:255;not null" json:"placeOfCollectable" binding:"required"`
+	Type        *Type   `gorm:"size:255;not null" json:"type" binding:"required"`
 	UserID        int   `json:"user_id" binding:"required"`
 	User        *User   `json:"user" binding:"required"`
-	TypeID        int   `json:"type_id" binding:"required"`
-	Type        *Type   `json:"type" binding:"required"`
 }

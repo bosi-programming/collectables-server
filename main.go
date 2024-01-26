@@ -44,10 +44,5 @@ func main() {
 	protected.PATCH("/collectables/:id", collectableController.UpdateCollectable)
 	protected.DELETE("/collectables/:id", collectableController.DeleteCollectable)
 
-	protected.GET("/types", typeController.GetTypes)
-	protected.POST("/types", typeController.CreateCollectableType)
-	protected.DELETE("/types/:id", typeController.DeleteType)
-	protected.GET("/types/:id", typeController.FindTypeById)
-
 	router.Run(":3000")
 }
